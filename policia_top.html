@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+
+html {
+
+width: 100%;
+
+height: 100%;
+
+display: flex;
+
+flex-direction: column;
+
+justify-content: center;
+
+align-items: center;
+
+}
+
+body {
+
+max-width: 90%;
+
+max-height: 90%;
+}
+
+img {
+
+max-width: 100%;
+
+max-height: 100%;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="sample"></div>
+<script>
+
+// ***************
+
+//INITIAL FUNCTION
+
+// IE9+ browser support
+
+if (window.addEventListener) {
+
+// Event for standard browsers
+
+window.addEventListener("message", onMessage, false);
+
+} // IE9+ browser support
+
+// Window support for IE8
+
+else {
+
+
+// Event for older browsers
+
+window.attachEvent("onmessage", onMessage);
+
+} // Window support for IE8
+
+// onMessage function for processing incoming information
+
+function onMessage (evt) {
+
+// check that the conditions are met
+
+if (evt && evt.data) {
+
+// Variables
+
+var results = null;
+
+var columnInfo = null;
+
+// get the data name
+
+self.resultName = evt.data.resultName;
+
+// Check for records
+
+if (evt.data.availableRowCount >= 0) {
+
+// Variables are assigned
+
+results = evt.data;
+
+columnInfo = evt.data.columns;
+
+// build the table
+
+jsonToTable(columnInfo, results.data);
+
+} // Check for records
+
+} // verify that the conditions are met
+
+} // onMessage function for processing incoming information
+
+// jsonToTable function to create the table and process the information
+
+function jsonToTable (columnInfo, jsonData) {
+
+// Variable and DOOM cleaning
+
+var tableDiv = document.getElementById("sample");
+
+tableDiv.innerHTML = "";
+
+// Create table
+
+var table = tableDiv.appendChild(document.createElement('table'));
+
+var tableBody = table.appendChild(document.createElement('tbody'));
+
+// check for records
+
+if (jsonData) {
+
+// scroll through the data
+
+for (var i = 0; i < jsonData.length; i++) {
+
+
+// I add a new line
+
+addDataRow(jsonData[i]);
+
+
+} // scroll through the data
+
+} // check for records
+
+// addDataRow function to add records to the table
+
+function addDataRow (dataFields) {
+
+// create line
+
+var tr = document.createElement('tr');
+
+// Iteration of the fields to add them to the row
+
+dataFields.forEach(function (field, index) {
+
+// verify that field is other than absent
+
+if (field != '(ausente)') {
+
+// A picture element is created and assigned a value of
+
+var img = document.createElement('img');
+field = './' + field + '.jpg';
+img.src=field;
+
+
+// The image is added to the line
+
+tr.appendChild(img)
+
+} // verify that field is other than absent
+
+ 
+
+}); //Iteration of the fields to add them to the row
+
+
+// The line is added to the table
+
+tableBody.appendChild(tr);
+
+} // addDataRow function to add records to the table
+
+
+} // jsonToTable function to create the table and process the information
+
+
+</script>
+
+</body>
+
+</html>
